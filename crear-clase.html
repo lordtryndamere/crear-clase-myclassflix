@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="div1">
+
+    </div>
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-database.js"></script>
+
+
+    <script>
+
+        // Your web app's Firebase configuration
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBzzj2vV1lrsys5UuRCcww6okMOKrvmtgc",
+            authDomain: "myclassflix-prod.firebaseapp.com",
+            databaseURL: "https://myclassflix-prod.firebaseio.com",
+            projectId: "myclassflix-prod",
+            storageBucket: "myclassflix-prod.appspot.com",
+            messagingSenderId: "876422344353",
+            appId: "1:876422344353:web:ffdda470a3916f88a9cae0"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+
+        classes = [
+
+            {
+                "idTeacher": "K6mvM9qrkvNAnXmYLQjehIan08v1",
+                "email": "coordinator.bilingual@gbac.edu.co",
+                "skill": "CTS - DES 1",
+                "emailhost":"alexander.forero@educar.com.co",
+                "startTime": "1585861200",
+                "endTime": "1585864800",
+                "course": "11-B",
+                "descriptionClass": "CTS - DES 1",
+                "schoolName": "mapsi",
+                "status": "open",
+                "titleClass": "CTS - DES 1"
+            }
+
+           
+        ];
+
+
+        var div = document.getElementById("div1");
+        for (i = 0; i < classes.length; i++) {
+            const element = classes[i];
+
+            // create a closure to preserve the value of "i"
+            (function (i) {
+
+                window.setTimeout(function () {
+                    firebase.database().ref(`/classes`).push(element)
+                        .then(   async(value) => {
+
+                         await    fetch(`http://localhost:3700/API/users/${element.descriptionClass}`,{
+                            method:"POST",
+                            headers:{ 'Content-Type': 'application/json;charset=UTF-8'},
+                            body:JSON.stringify({emailhost:element.emailhost}) // SE ENVIA EL CORREO DEL HOST 
+                        
+                        }).then(res=>res.json())
+                        .then( async data=>{
+                            if(data.code == 200){
+                          await  firebase.database().ref(`/classes/${value.key}`).update({start_url:data.response.start_url,join_url:data.response.join_url,key:value.key}).then(()=>{
+                                console.log("todo ok")
+                            })
+                            }else{
+                                console.log("Error server")
+                            }
+                        })
+                        .catch(err=>console.log(err))
+                        
+                            div.innerHTML = div.innerHTML + '{<br>&nbsp;&nbsp;"key" : "' + value.key + '",<br>&nbsp;&nbsp;"email" : "' + element.email + '",<br>&nbsp;&nbsp;"zoomLink" : "' + element.idTeacher + '"<br>},<br><br>';
+                            firebase.database().ref(`/classes/${value.key}`).update({
+                                key: value.key
+                            }).then((value) => {
+                                console.log('ok')
+                            })
+                        })
+                }, i * 4000);
+
+            }(i));
+
+        }
+
+
+    </script>
+</body>
+
+</html>
