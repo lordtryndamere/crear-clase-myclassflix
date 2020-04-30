@@ -40,23 +40,20 @@
 
 
         classes = [
+        {
+            "emailhost": "h.o.s.tm.yc.la.ss.f.lix2@gmail.com",
+            "course": "demo-myclass",
+            "skill": "PRUEBA HORA",
+            "idTeacher": "sbeTMHnsKjcl6Y18gDtuRkZYt4g2",
+            "startTime": "1588255200",
+            "endTime": "1588258800",
+            "status": "closed",
+            "schoolName": "TEST"
+        },
 
-            {
-                "idTeacher": "K6mvM9qrkvNAnXmYLQjehIan08v1",
-                "email": "coordinator.bilingual@gbac.edu.co",
-                "skill": "CTS - DES 1",
-                "emailhost":"alexander.forero@educar.com.co",
-                "startTime": "1585861200",
-                "endTime": "1585864800",
-                "course": "11-B",
-                "descriptionClass": "CTS - DES 1",
-                "schoolName": "mapsi",
-                "status": "open",
-                "titleClass": "CTS - DES 1"
-            }
 
-           
         ];
+
 
 
         var div = document.getElementById("div1");
@@ -70,10 +67,10 @@
                     firebase.database().ref(`/classes`).push(element)
                         .then(   async(value) => {
 
-                         await    fetch(`http://localhost:3700/API/users/${element.descriptionClass}`,{
+                         await    fetch(`http://localhost:3700/API/users/${element.skill}`,{
                             method:"POST",
                             headers:{ 'Content-Type': 'application/json;charset=UTF-8'},
-                            body:JSON.stringify({emailhost:element.emailhost}) // SE ENVIA EL CORREO DEL HOST 
+                            body:JSON.stringify({emailhost:element.emailhost,start_time:element.startTime,endTime:element.endTime}) // SE ENVIA EL CORREO DEL HOST 
                         
                         }).then(res=>res.json())
                         .then( async data=>{

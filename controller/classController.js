@@ -1,16 +1,25 @@
 var fetch = require('node-fetch')
+var moment = require('moment-timezone');
 var classController ={
   async  createClass(req,res){
         let topic = req.params.topic
+        let start_time = req.body.start_time
+        let endTime =  moment.unix(req.body.endTime).tz("America/Bogota").format()
+        let date_end = moment.unix(start_time).tz("America/Bogota").format()
+        let a = moment(date_end)
+        let b = moment(endTime)
+        let time =   parseInt(b.diff(a,'minute'))
         let emailhost = req.body.emailhost
+
   
         fetch(`https://api.zoom.us/v2/users/${emailhost}/meetings`,{
             method:"POST",
-            headers:{ 'Content-Type': 'application/json', "Authorization":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IndxVmVxcW9mU3YyLXBkcE1Sd3dCVHciLCJleHAiOjE1ODc0MDc0OTAsImlhdCI6MTU4NjgwMjY5MH0.UvS9VAODGeu-rMe6da0Rug1OVT_pPojM296ybwGkukc"},
+            headers:{ 'Content-Type': 'application/json', "Authorization":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IndxVmVxcW9mU3YyLXBkcE1Sd3dCVHciLCJleHAiOjE1ODg2ODU1ODQsImlhdCI6MTU4ODA4MDc4M30.o8SbIyYo_8Jjl17Lyb4oH9H7DdT52AxX1AEPZ4iUd6k"},
             body: JSON.stringify({
                 "topic": topic,
                 "type": 2,
-                "duration": 120,
+                "start_time": date_end,
+                "duration": time,
                 "timezone": "America/Bogota",
                 "agenda": "prueba",
                 "settings": {
