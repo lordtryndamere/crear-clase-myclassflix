@@ -14,7 +14,7 @@ var classController ={
   
         fetch(`https://api.zoom.us/v2/users/${emailhost}/meetings`,{
             method:"POST",
-            headers:{ 'Content-Type': 'application/json', "Authorization":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IndxVmVxcW9mU3YyLXBkcE1Sd3dCVHciLCJleHAiOjE1ODg2ODU1ODQsImlhdCI6MTU4ODA4MDc4M30.o8SbIyYo_8Jjl17Lyb4oH9H7DdT52AxX1AEPZ4iUd6k"},
+            headers:{ 'Content-Type': 'application/json', "Authorization":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IndxVmVxcW9mU3YyLXBkcE1Sd3dCVHciLCJleHAiOjE1OTcwOTgyMjIsImlhdCI6MTU5NjQ3NTQyMn0.CK4aOyOzfqOMxA84IpxgLmDRhsGZvvYfrRajy6dea5U"},
             body: JSON.stringify({
                 "topic": topic,
                 "type": 2,
